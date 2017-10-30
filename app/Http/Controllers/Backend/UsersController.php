@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backend;
 
+use Gate;
 use App\Http\Requests\UsersValidator;
 use App\Repositories\UserRepository;
 use Illuminate\Http\{RedirectResponse, Response};
@@ -27,6 +28,7 @@ class UsersController extends Controller
     public function __construct(UserRepository $userRepository)
     {
         $this->middleware('auth');
+        $this->middleware('role:admin')->except(['destroy']);
 
         $this->userRepository = $userRepository;
     }
@@ -89,12 +91,14 @@ class UsersController extends Controller
         $authUser = auth()->user();
         $user     = $this->userRepository->find($userId) ?: abort(Response::HTTP_NOT_FOUND);
 
-        if ($user->delete()) {
-            flash("The {$user->name} has been deleted in the system.")->success();
+        if (Gate::allows('delete', $user)) { // Permission check for the user.
+            if ($user->delete()) {
+                flash("The {$user->name} has been deleted in the system.")->success();
 
-            if ($authUser->hasRole('admin')) {
-                activity()->causedBy($authUser)->log("The user {$user->name} has been deleted.");
-                // TODO: Queueable mail to let the user known that he has been deleted.
+                if ($authUser->hasRole('admin')) {
+                    activity()->causedBy($authUser)->log("The user {$user->name} has been deleted.");
+                    // TODO: Queueable mail to let the user known that he has been deleted.
+                }
             }
         }
 
