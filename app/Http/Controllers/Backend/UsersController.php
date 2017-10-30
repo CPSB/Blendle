@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Http\Requests\UsersValidator;
 use App\Repositories\UserRepository;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\View\View;
@@ -17,6 +19,8 @@ class UsersController extends Controller
     private $userRepository; /** @var UserRepository $uerRepository */
     /**
      * UsersController constructor.
+     *
+     * @todo: Set up permissions for the controller.
      *
      * @param  UserRepository $userRepository Abstraction layer between database and user.
      * @return void
@@ -45,8 +49,33 @@ class UsersController extends Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function create()
+    public function create(): View
     {
         return view('backend.users.create');
+    }
+
+    /**
+     * Store a new user in the system.
+     * ----
+     * NOTE: perms handled in the validator instance.
+     *
+     * @param  UsersValidator $input The user input validation instance.
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function store(UsersValidator $input): RedirectResponse
+    {
+        $password = str_random(60);
+        $filter   = ['firstName', 'lastName'];
+
+        $input->merge(['name' => "{$input->firstName} {$input->lastName}", 'password' => $password]);
+
+        if ($user = $this->userRepository->create($input->except($filter))) {
+            activity()->causedBy(auth()->user())->log("Added {$user->name} as user.");
+            flash("{$user->name} has been added. And his password setup has been mailed.")->success();
+
+            // TODO: Set up queueable mail for the user information.
+        }
+
+        return redirect()->route('users.index');
     }
 }

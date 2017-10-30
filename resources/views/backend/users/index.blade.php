@@ -2,6 +2,8 @@
 
 @section('content')
     <div class="container">
+        @include('flash::message') {{-- Flash session view instance --}}
+
         <div class="row">
             <div class="col-md-12">
                 <div class="panel panel-default">

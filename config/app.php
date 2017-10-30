@@ -167,6 +167,7 @@ return [
         /*
          * Package Service Providers...
          */
+        ActivismeBE\FormHelper\FormServiceProvider::class,
 
         /*
          * Application Service Providers...
