@@ -4,6 +4,11 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * Class UsersValidator
+ * 
+ * @package App\Http\Requests
+ */
 class UsersValidator extends FormRequest
 {
     /**
@@ -13,7 +18,7 @@ class UsersValidator extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return auth()->user()->hasRole('admin');
     }
 
     /**
