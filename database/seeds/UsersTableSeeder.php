@@ -36,7 +36,7 @@ class UsersTableSeeder extends Seeder
                     $role->syncPermissions(Permission::all());
                     $this->command->info('Admin granted all permissions');
                 } else { // For others by default only read access.
-                    $role->syncPermissions(Permission::chere('name', 'LIKE', 'view_%')->get());
+                    $role->syncPermissions(Permission::where('name', 'LIKE', 'view_%')->get());
                 }
 
                 $this->createUser($role); // Create one user for each role.
