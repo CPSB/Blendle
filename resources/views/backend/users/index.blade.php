@@ -55,7 +55,7 @@
                                                         <i class="fa fa-fw fa-ban"></i>
                                                     </a>
 
-                                                    <a href="" class="text-muted">
+                                                    <a href="{{ route('users.destroy', $user) }}" class="text-muted">
                                                         <i class="fa fa-fw fa-trash"></i>
                                                     </a>
                                                 </td> {{-- /Options --}}

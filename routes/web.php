@@ -22,4 +22,5 @@ Route::get('/home', 'Backend\HomeController@index')->name('home');
 // User routes
 Route::get('/users', 'Backend\UsersController@index')->name('users.index');
 Route::get('/users/create', 'Backend\UsersController@create')->name('users.create');
+Route::get('/users/delete/{id}', 'Backend\UsersController@destroy')->name('users.destroy');
 Route::post('/users/store', 'Backend\UsersController@store')->name('users.store');

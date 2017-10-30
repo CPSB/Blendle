@@ -4,8 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Requests\UsersValidator;
 use App\Repositories\UserRepository;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
+use Illuminate\Http\{RedirectResponse, Response};
 use App\Http\Controllers\Controller;
 use Illuminate\View\View;
 
@@ -74,6 +73,29 @@ class UsersController extends Controller
             flash("{$user->name} has been added. And his password setup has been mailed.")->success();
 
             // TODO: Set up queueable mail for the user information.
+        }
+
+        return redirect()->route('users.index');
+    }
+
+    /**
+     * Delete a user out off the system.
+     *
+     * @param  integer $userId The unique identifier from the user.
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function destroy($userId): RedirectResponse
+    {
+        $authUser = auth()->user();
+        $user     = $this->userRepository->find($userId) ?: abort(Response::HTTP_NOT_FOUND);
+
+        if ($user->delete()) {
+            flash("The {$user->name} has been deleted in the system.")->success();
+
+            if ($authUser->hasRole('admin')) {
+                activity()->causedBy($authUser)->log("The user {$user->name} has been deleted.");
+                // TODO: Queueable mail to let the user known that he has been deleted.
+            }
         }
 
         return redirect()->route('users.index');
