@@ -42,8 +42,6 @@ class BlockUserController extends Controller
      */
     public function create($userId): View
     {
-        // TODO: Register policy.
-
         $user = $this->usersRepository->find($userId) ?: abort(Response::HTTP_NOT_FOUND);
         return view('backend.ban.create', compact('user'));
     }
@@ -69,7 +67,7 @@ class BlockUserController extends Controller
 
                     Mail::to($user->email)->queue(new BlockActionPerformed($input->all()));
                 }
-            } else { // The user is not banned in the database.
+            } else { // The user is already banned in the database.
                 $message = "{$user->name} has already been blocked in the system.";
             }
         }
@@ -89,6 +87,10 @@ class BlockUserController extends Controller
     public function destroy($userId): RedirectResponse
     {
         $user = $this->usersRepository->find($userId) ?: abort(Response::HTTP_NOT_FOUND);
+
+        if (Gate::allows('unblock', $user)) {   // Check if the user is allowed to perform the action.
+
+        }
 
         return redirect()->route('users.index');
     }

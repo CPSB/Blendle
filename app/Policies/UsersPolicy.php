@@ -21,7 +21,7 @@ class UsersPolicy
      * @param  \App\User  $userDb    The data from the database record.
      * @return mixed
      */
-    public function delete(User $authUser, User $userDb)
+    public function delete(User $authUser, User $userDb): Bool
     {
         return $authUser->id == $userDb->id || $authUser->hasRole('admin');
     }
