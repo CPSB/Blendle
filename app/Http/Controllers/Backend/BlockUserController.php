@@ -23,8 +23,6 @@ class BlockUserController extends Controller
     /**
      * BlockUserController constructor.
      *
-     * @todo: register unban user
-     *
      * @param  UserRepository $userRepository The abstraction layer between database and controller.
      * @return void
      */

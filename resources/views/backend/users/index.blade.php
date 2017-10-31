@@ -44,11 +44,11 @@
                                                 <td> {{-- Active/Ban status --}}
                                                     @if ($user->isBanned())
                                                         <span class="label label-danger">
-                                                            <i class="fa fa-ban"></i> Blocked
+                                                            <i class="fa fa-fw fa-ban"></i> Blocked
                                                         </span>
                                                     @elseif ($user->isNotBanned())
                                                         <span class="label label-success">
-                                                            <i class="fa fa-check"></i> Active
+                                                            <i class="fa fa-fw fa-check"></i> Active
                                                         </span>
                                                     @endif
                                                 </td> {{-- END Active/Ban status --}}
@@ -61,9 +61,15 @@
                                                         <i class="fa fa-fw fa-info-circle"></i>
                                                     </a>
 
-                                                    <a href="{{ route('users.ban', $user) }}" class="text-muted">
-                                                        <i class="fa fa-fw fa-ban"></i>
-                                                    </a>
+                                                    @if ($user->isBanned())
+                                                        <a href="{{ route('users.ban.undo', $user) }}" class="text-muted">
+                                                            <i class="fa fa-fw fa-check"></i>
+                                                        </a>
+                                                    @elseif ($user->isNotBanned())
+                                                        <a href="{{ route('users.ban', $user) }}" class="text-muted">
+                                                            <i class="fa fa-fw fa-ban"></i>
+                                                        </a>
+                                                    @endif
 
                                                     <a href="{{ route('users.destroy', $user) }}" class="text-muted">
                                                         <i class="fa fa-fw fa-trash"></i>
