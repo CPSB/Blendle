@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\Repositories\ActivityRepository;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\View\View;
+use Illuminate\Http\Response;
+use App\Http\Controllers\Controller;
+use App\Repositories\{ActivityRepository, UserRepository};
 
 /**
  * Class LogController
@@ -38,5 +38,20 @@ class LogController extends Controller
         return view('backend.logs.index', [
             'logs' => $this->activityRepository->paginate(25)
         ]);
+    }
+
+    /**
+     * Show the activity log from an given user
+     *
+     * @param  UserRepository  $userRepository  The abstraction layer for the user database model.
+     * @param  integer         $userId          The unique identifier from the user.
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function show(UserRepository $userRepository, $userId): View
+    {
+        $user = $userRepository->find($userId) ?: abort(Response::HTTP_NOT_FOUND);
+        $logs = $this->activityRepository->entity()->CausedBy($user)->paginate(25);
+
+        return view('backend.logs.show', compact('user', 'logs'));
     }
 }

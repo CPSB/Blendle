@@ -26,7 +26,7 @@
                                             <tr>
                                                 <td>{{ $log->created_at->diffForHumans() }}</td>
                                                 <td>{{ $log->description }}</td>
-                                                <td>{{ $log->causer->email }}</td>
+                                                <td><a href="{{ route('logs.show', $log->causer) }}">{{ $log->causer->email }}</a></td>
                                             </tr>
                                         @endforeach {{-- END loop --}}
                                     </tbody>

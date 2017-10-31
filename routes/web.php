@@ -32,3 +32,4 @@ Route::post('/users/ban/store/{id}', 'Backend\BlockUserController@store')->name(
 
 // Log routes
 Route::get('/logs', 'Backend\LogController@index')->name('logs.index');
+Route::get('/logs/{id}', 'Backend\LogController@show')->name('logs.show');

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "a32a7fea691aa6c1519dcaddf8adebce",
+    "content-hash": "761b8e1a976218d63d06d8a8913fe3e9",
     "packages": [
         {
             "name": "activismebe/database-layering",
@@ -1841,6 +1841,55 @@
                 "user"
             ],
             "time": "2017-10-16T19:55:43+00:00"
+        },
+        {
+            "name": "spatie/laravel-or-abort",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/laravel-or-abort.git",
+                "reference": "18fa71f436f5c2768c02a7b36be4f9d67fa934d5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/laravel-or-abort/zipball/18fa71f436f5c2768c02a7b36be4f9d67fa934d5",
+                "reference": "18fa71f436f5c2768c02a7b36be4f9d67fa934d5",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^5.0",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.*",
+                "scrutinizer/ocular": "~1.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\OrAbort\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": ":Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A trait to add OrAbort functions to a class",
+            "homepage": "https://github.com/spatie/laravel-or-abort",
+            "keywords": [
+                "abort",
+                "laravel",
+                "spatie"
+            ],
+            "time": "2015-06-30T11:17:03+00:00"
         },
         {
             "name": "spatie/laravel-permission",
