@@ -21,7 +21,7 @@ class BlockPolicy
      * @param  \App\User  $model    The user from the database.
      * @return bool
      */
-    public function block(User $user, User $model): Bool
+    public function block(User $user, User $model)
     {
         return $user->id != $model->id && $user->hasRole('admin');
     }
@@ -33,7 +33,7 @@ class BlockPolicy
      * @param  \App\User $model     The user from the database.
      * @return bool
      */
-    public function unblock(User $user, User $model): Bool
+    public function unblock(User $user, User $model)
     {
         return $user->id != $model->id && $user->hasRole('admin');
     }

@@ -29,3 +29,6 @@ Route::post('/users/store', 'Backend\UsersController@store')->name('users.store'
 Route::get('/users/ban/{id}', 'Backend\BlockUserController@create')->name('users.ban');
 Route::get('/users/unban/{id}', 'Backend\BlockUserController@destroy')->name('users.ban.undo');
 Route::post('/users/ban/store/{id}', 'Backend\BlockUserController@store')->name('users.ban.store');
+
+// Log routes
+Route::get('/logs', 'Backend\LogController@index')->name('logs.index');

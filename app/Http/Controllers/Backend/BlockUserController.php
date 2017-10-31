@@ -88,12 +88,11 @@ class BlockUserController extends Controller
 
         if (Gate::allows('unblock', $user)) {   // Check if the user is allowed to perform the action.
             if ($user->isBanned()) {            // The given user is banned in the database.
-                if ($user->unban()) {           // The user is unbanned in the database.
-                    $message = "{$user->name} has been unblocked in the system.";
-                    activity()->causedBy(auth()->user())->log("Has unblocked {$user->name} in the system.");
+                $user->unban();
+                $message = "{$user->name} has been unblocked in the system.";
+                activity()->causedBy(auth()->user())->log("Has unblocked {$user->name} in the system.");
 
-                    Mail::to($user->email)->queue(new UnblockActionperformed());
-                }
+                Mail::to($user->email)->queue(new UnblockActionperformed());
             } else { // The user has already been unblocked in the system.
                 $message = "{$user->name} has already been ublocked in the system.";
             }

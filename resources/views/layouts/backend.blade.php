@@ -42,11 +42,15 @@
                     <li><a href=""><i class="fa fa-newspaper-o"></i> News</a></li>
                     <li><a href=""><i class="fa fa-tags"></i> Tags</a></li>
                     <li><a href=""><i class="fa fa-envelope"></i> Contact Form</a></li>
-                    <li @if(Request::is('users*')) class="active" @endif>
+                    <li @if (Request::is('users*')) class="active" @endif>
                         <a href="{{ route('users.index') }}">
                             <i class="fa fa-users"></i> Users</a>
                     </li>
-                    <li><a href=""><i class="fa fa-file-text-o"></i> Logs</a></li>
+                    <li @if (Request::is('logs*')) class="active" @endif>
+                        <a href="{{ route('logs.index') }}">
+                            <i class="fa fa-file-text-o"></i> Logs
+                        </a>
+                    </li>
                     <li><a href=""><i class="fa fa-line-chart"></i> Statistics</a></li>
                 </ul>
 
