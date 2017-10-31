@@ -40,7 +40,7 @@ class UsersController extends Controller
     public function index(): View
     {
         return view('backend.users.index', [
-            'users' => $this->userRepository->paginate(25)
+            'users' => $this->userRepository->paginate(20)
         ]);
     }
 
