@@ -17,17 +17,16 @@ use Illuminate\View\View;
 class UsersController extends Controller
 {
     private $userRepository; /** @var UserRepository $uerRepository */
+
     /**
      * UsersController constructor.
-     *
-     * @todo: Set up permissions for the controller.
      *
      * @param  UserRepository $userRepository Abstraction layer between database and user.
      * @return void
      */
     public function __construct(UserRepository $userRepository)
     {
-        $this->middleware('auth');
+        $this->middleware('forbid-banned-user');
         $this->middleware('role:admin')->except(['destroy']);
 
         $this->userRepository = $userRepository;

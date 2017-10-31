@@ -41,7 +41,17 @@
                                         @foreach ($users as $user) {{-- Loop through the users --}}
                                             <tr>
                                                 <td><strong>#{{ $user->id }}</strong></td>
-                                                <td>{{-- Implementation status --}}</td>
+                                                <td> {{-- Active/Ban status --}}
+                                                    @if ($user->isBanned())
+                                                        <span class="label label-danger">
+                                                            <i class="fa fa-ban"></i> Blocked
+                                                        </span>
+                                                    @elseif ($user->isNotBanned())
+                                                        <span class="label label-success">
+                                                            <i class="fa fa-check"></i> Active
+                                                        </span>
+                                                    @endif
+                                                </td> {{-- END Active/Ban status --}}
                                                 <td>{{ $user->name }}</td>
                                                 <td><a href="mailto:{{ $user->email }}">{{ $user->email }}</a></td>
                                                 <td>{{ $user->created_at->diffForHumans() }}</td>
@@ -51,7 +61,7 @@
                                                         <i class="fa fa-fw fa-info-circle"></i>
                                                     </a>
 
-                                                    <a href="" class="text-muted">
+                                                    <a href="{{ route('users.ban', $user) }}" class="text-muted">
                                                         <i class="fa fa-fw fa-ban"></i>
                                                     </a>
 

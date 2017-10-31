@@ -4,6 +4,8 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Cog\Contracts\Ban\Bannable as BannableContract;
+use Cog\Laravel\Ban\Traits\Bannable;
 use Spatie\Permission\Traits\HasRoles;
 
 /**
@@ -11,9 +13,9 @@ use Spatie\Permission\Traits\HasRoles;
  *
  * @package App
  */
-class User extends Authenticatable
+class User extends Authenticatable implements BannableContract
 {
-    use Notifiable, HasRoles;
+    use Notifiable, HasRoles, Bannable;
 
     /**
      * The attributes that are mass assignable.
