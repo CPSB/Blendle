@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use Gate;
 use App\Http\Requests\BanValidator;
-use App\Mail\BlockActionPerformed;
+use App\Mail\{UnblockActionPerformed, BlockActionPerformed};
 use App\Repositories\UserRepository;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\{RedirectResponse, Response};
@@ -72,7 +72,7 @@ class BlockUserController extends Controller
             }
         }
 
-        flash(isset($message) ? $message : 'Your are not permitted to do this action.')->info();
+        flash(isset($message) ? $message : 'You are not permitted to perform this action.')->info();
         return redirect()->route('users.index');
     }
 
@@ -89,9 +89,19 @@ class BlockUserController extends Controller
         $user = $this->usersRepository->find($userId) ?: abort(Response::HTTP_NOT_FOUND);
 
         if (Gate::allows('unblock', $user)) {   // Check if the user is allowed to perform the action.
+            if ($user->isBanned()) {            // The given user is banned in the database.
+                if ($user->unban()) {           // The user is unbanned in the database.
+                    $message = "{$user->name} has been unblocked in the system.";
+                    activity()->causedBy(auth()->user())->log("Has unblocked {$user->name} in the system.");
 
+                    Mail::to($user->email)->queue(new UnblockActionperformed());
+                }
+            } else { // The user has already been unblocked in the system.
+                $message = "{$user->name} has already been ublocked in the system.";
+            }
         }
 
+        flash(isset($message) ? $message : "You are not permitted to perform this action.")->info();
         return redirect()->route('users.index');
     }
 }
