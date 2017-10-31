@@ -15,6 +15,9 @@ use Illuminate\View\View;
  */
 class AccountSettingsController extends Controller
 {
+    // TODO: Register routes
+    // TODO: Translate controller flash messages.
+
     private $userRepository; /** @var UserRepository $userRepository */
 
     /**
