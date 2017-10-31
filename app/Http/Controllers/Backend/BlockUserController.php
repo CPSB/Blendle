@@ -57,7 +57,7 @@ class BlockUserController extends Controller
      * @param  integer      $userId     The unique identifier from the user.
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(BanValidator $input, $userId): RedirectResponse // TODO: Fill in the fields. (validated).
+    public function store(BanValidator $input, $userId): RedirectResponse
     {
         $user = $this->usersRepository->find($userId) ?: abort(Response::HTTP_NOT_FOUND);
 
@@ -81,13 +81,15 @@ class BlockUserController extends Controller
     /**
      * Delete a user ban in the system.
      * ----
-     * NOTE: Permissions are also hanled in the GATE policy
+     * NOTE: Permissions are also handled in the GATE policy
      *
      * @param  integer $userId  The unique identifier from the user.
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy($userId): RedirectResponse
     {
+        $user = $this->usersRepository->find($userId) ?: abort(Response::HTTP_NOT_FOUND);
+
         return redirect()->route('users.index');
     }
 }
