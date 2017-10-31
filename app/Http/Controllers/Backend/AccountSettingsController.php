@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Repositories\UserRepository;
 use App\Http\Requests\Backend\{AccountInfo, AccountSecurity};
 use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\Controller;
@@ -14,14 +15,18 @@ use Illuminate\View\View;
  */
 class AccountSettingsController extends Controller
 {
+    private $userRepository; /** @var UserRepository $userRepository */
+
     /**
      * AccountSettingsController constructor.
      *
+     * @param  UserRepository $userRepository The abstraction layer between database and controlle.
      * @return void
      */
-    public function __construct()
+    public function __construct(UserRepository $userRepository)
     {
         $this->middleware(['auth', 'forbid-banned-user']);
+        $this->userRepository = $userRepository;
     }
 
     /**
@@ -40,6 +45,9 @@ class AccountSettingsController extends Controller
      */
     public function updateSettings(AccountInfo $input): RedirectResponse
     {
+        if ($user = $this->userRepository->update($input->except('_token'), auth()->user()->id)) {
+            flash("Your account informaation has been updated.")->info();
+        }
         return redirect()->route('account.settings');
     }
 
@@ -49,6 +57,11 @@ class AccountSettingsController extends Controller
      */
     public function updateSecurity(AccountSecurity $input): RedirectResponse
     {
+        $input = ['password' => bcrypt($input->password)];
+
+        if ($user = $this->userRepository->update($input, auth()->user()->id)) {
+            flash("Your account security has been updated.")->info();
+        }
         return redirect()->route('account.settings');
     }
 }
