@@ -20,12 +20,6 @@
                         <form method="POST" action="{{ route('users.store') }}">
                             {{ csrf_field() }} {{-- CSRF field protection --}}
 
-                            <div class="form-group col-md-12 @error('email', 'has-error')">
-                                <label for="">Email address: <span class="text-danger">*</span></label>
-                                <input class="form-control" type="text" @input('email')>
-                                @error('email')
-                            </div>
-
                             <div class="form-group col-md-4 @error('firstName', 'has-error')">
                                 <label>First name: <span class="text-danger">*</span></label>
                                 <input class="form-control" type="text" @input('firstName')>
@@ -36,6 +30,26 @@
                                 <label>Last name: <span class="text-danger">*</span></label>
                                 <input class="form-control" type="text" @input('lastName')>
                                 @error('lastName')
+                            </div>
+
+                            <div class="form-group col-md-12 @error('email', 'has-error')">
+                                <label for="">Email address: <span class="text-danger">*</span></label>
+                                <input class="form-control" type="text" @input('email')>
+                                @error('email')
+                            </div>
+
+                            <div class="form-group col-md-12 @error('role', 'has-error')">
+                                <label for="">User role: <span class="text-danger">*</span></label>
+                                <select name="role" class="form-control">
+                                    <option value="">-- Select the role for the user --</option>
+
+                                    @foreach($roles as $role) {{-- Loop through the roles --}}
+                                        <option value="{{ $role->name }}" @if (old('role') == $role->name)) selected @endif>
+                                            {{ ucfirst($role->name) }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('role')
                             </div>
 
                             <div class="form-group col-md-12"> {{-- Submit and reset button --}}

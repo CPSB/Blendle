@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Repositories\RoleRepository;
 use Gate;
 use App\Http\Requests\Backend\UsersValidator;
 use App\Repositories\UserRepository;
@@ -26,8 +27,8 @@ class UsersController extends Controller
      */
     public function __construct(UserRepository $userRepository)
     {
+        $this->middleware(['auth', 'role:admin'])->except(['destroy']);
         $this->middleware('forbid-banned-user');
-        $this->middleware('role:admin')->except(['destroy']);
 
         $this->userRepository = $userRepository;
     }
@@ -53,11 +54,12 @@ class UsersController extends Controller
     /**
      * Get the view for creating a new user in the system.
      *
+     * @param  RoleRepository $roleRepository Abstraction layer between controller and role db table.
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function create(): View
+    public function create(RoleRepository $roleRepository): View
     {
-        return view('backend.users.create');
+        return view('backend.users.create', ['roles' => $roleRepository->all(['name'])]);
     }
 
     /**
@@ -73,7 +75,7 @@ class UsersController extends Controller
         $password = str_random(60);
         $input->merge(['name' => "{$input->firstName} {$input->lastName}", 'password' => $password]);
 
-        if ($user = $this->userRepository->create($input->all())) {
+        if ($user = $this->userRepository->create($input->all())->assignRole($input->role)) {
             activity()->causedBy(auth()->user())->log("Added {$user->name} as user.");
             flash("{$user->name} has been added. And his password setup has been mailed.")->success();
 
@@ -81,7 +83,7 @@ class UsersController extends Controller
             // TODO: Set up implementation to detach roles by user creation.
         }
 
-        return redirect()->route('users.index');
+        return redirect()->route('users.index', ['role' => $input->role]);
     }
 
     /**
@@ -99,13 +101,13 @@ class UsersController extends Controller
             if ($user->delete()) {
                 flash("The {$user->name} has been deleted in the system.")->success();
 
-                if ($authUser->hasRole('admin')) {
+                if ($authUser->id != $user->id && $authUser->hasRole('admin')) {
                     activity()->causedBy($authUser)->log("The user {$user->name} has been deleted.");
                     // TODO: Queueable mail to let the user known that he has been deleted.
                 }
             }
         }
 
-        return redirect()->route('users.index');
+        return redirect()->route('users.index', ['role' => ($user->hasRole('admin') == true) ? 'admin' : 'user']);
     }
 }

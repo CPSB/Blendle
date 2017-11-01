@@ -31,6 +31,7 @@ class UsersValidator extends FormRequest
         return [
             'firstName' => 'required',
             'lastName'  => 'required',
+            'role'      => 'required|string|max:255',
             'email'     => 'required|string|email|max:255|unique:users',
         ];
     }
