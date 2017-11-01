@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use Gate;
-use App\Http\Requests\UsersValidator;
+use App\Http\Requests\Backend\UsersValidator;
 use App\Repositories\UserRepository;
 use Illuminate\Http\{RedirectResponse, Response};
 use App\Http\Controllers\Controller;

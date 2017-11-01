@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use Gate;
-use App\Http\Requests\BanValidator;
+use App\Http\Requests\Backend\BanValidator;
 use App\Mail\{UnblockActionPerformed, BlockActionPerformed};
 use App\Repositories\UserRepository;
 use App\Http\Controllers\Controller;

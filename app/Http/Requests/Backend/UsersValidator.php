@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Backend;
 
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * Class BanValidator
- *
+ * Class UsersValidator
+ * 
  * @package App\Http\Requests
  */
-class BanValidator extends FormRequest
+class UsersValidator extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,8 +29,9 @@ class BanValidator extends FormRequest
     public function rules()
     {
         return [
-            'reason'  => 'required',
-            'endDate' => 'date|after:today'
+            'firstName' => 'required',
+            'lastName'  => 'required',
+            'email'     => 'required|string|email|max:255|unique:users',
         ];
     }
 }
