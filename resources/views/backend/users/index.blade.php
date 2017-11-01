@@ -8,7 +8,7 @@
             <div class="col-md-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <i class="fa fa-users"></i> User management.
+                        <i class="fa fa-fw fa-list"></i> {{ ucfirst($role) }} management.
 
                         <span class="pull-right">
                             @if (count($users) > 20)

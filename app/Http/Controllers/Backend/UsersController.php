@@ -35,15 +35,19 @@ class UsersController extends Controller
     /**
      * Get the index control panel for the users.
      *
+     * @param  string $role The role group for the users.
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index(): View
+    public function index($role = null): View
     {
-        $users =  $this->userRepository->entity()->whereHas('roles', function ($query) {
-            $query->where(config('permission.table_names.roles') . '.name', '!=', 'admin');
-        })->paginate(20);
+        // Check if the user has given system roles.
+        in_array($role, ['user', 'admin']) ?: abort(Response::HTTP_NOT_FOUND);
 
-        return view('backend.users.index', compact('users'));
+        $users =  $this->userRepository->entity()->whereHas('roles', function ($query) use ($role) {
+            $query->where(config('permission.table_names.roles') . '.name', $role);
+        });
+
+        return view('backend.users.index', ['users' => $users->paginate(20), 'role' => $role]);
     }
 
     /**
@@ -74,6 +78,7 @@ class UsersController extends Controller
             flash("{$user->name} has been added. And his password setup has been mailed.")->success();
 
             // TODO: Set up queueable mail for the user information.
+            // TODO: Set up implementation to detach roles by user creation.
         }
 
         return redirect()->route('users.index');

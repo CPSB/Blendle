@@ -39,14 +39,27 @@
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
-                    <li><a href=""><i class="fa fa-users"></i> Admins</a></li>
+                    <li class="dropdown @if (Request::is('users*')) active @endif">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-users"></i> Users <span class="caret"></span>
+                        </a>
+
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="{{ route('users.index', ['role' => 'user']) }}">
+                                    <i class="fa fa-fw fa-users"></i> Users
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('users.index', ['role' => 'admin'])  }}">
+                                    <i class="fa fa-fw fa-key"></i> Admins
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                     <li><a href=""><i class="fa fa-newspaper-o"></i> News</a></li>
                     <li><a href=""><i class="fa fa-tags"></i> Tags</a></li>
                     <li><a href=""><i class="fa fa-envelope"></i> Contact Form</a></li>
-                    <li @if (Request::is('users*')) class="active" @endif>
-                        <a href="{{ route('users.index') }}">
-                            <i class="fa fa-users"></i> Users</a>
-                    </li>
                     <li @if (Request::is('logs*')) class="active" @endif>
                         <a href="{{ route('logs.index') }}">
                             <i class="fa fa-file-text-o"></i> Logs
