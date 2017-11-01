@@ -6,7 +6,7 @@
 
         <div class="row">
             <div class="col-md-3"> {{-- Sidebar menu --}}
-                <div class="list-group">
+                <div class="list-group" id="tabMenu">
                     <a href="#info" aria-controls="info" role="tab" data-toggle="tab" class="list-group-item">
                         <i class="fa fa-fw fa-info-circle"></i> Account information
                     </a>

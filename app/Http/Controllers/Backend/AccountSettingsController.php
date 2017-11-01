@@ -15,7 +15,6 @@ use Illuminate\View\View;
  */
 class AccountSettingsController extends Controller
 {
-    // TODO: Register routes
     // TODO: Translate controller flash messages.
 
     private $userRepository; /** @var UserRepository $userRepository */
@@ -39,18 +38,22 @@ class AccountSettingsController extends Controller
      */
     public function index(): View
     {
-        return view('backend.account.index');
+        return view('backend.account.index', [
+            'user' => $this->userRepository->find(auth()->user()->id)
+        ]);
     }
 
     /**
      * @param  AccountInfo $input The validator instance forthe input.
      * @return RedirectResponse
      */
-    public function updateSettings(AccountInfo $input): RedirectResponse
+    public function updateInfo(AccountInfo $input): RedirectResponse
     {
         if ($user = $this->userRepository->update($input->except('_token'), auth()->user()->id)) {
             flash("Your account informaation has been updated.")->info();
         }
+
+        cookie('tab', 'info' ,1);
         return redirect()->route('account.settings');
     }
 
@@ -65,6 +68,7 @@ class AccountSettingsController extends Controller
         if ($user = $this->userRepository->update($input, auth()->user()->id)) {
             flash("Your account security has been updated.")->info();
         }
+
         return redirect()->route('account.settings');
     }
 }

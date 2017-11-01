@@ -13,7 +13,7 @@ class AccountInfo extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,10 @@ class AccountInfo extends FormRequest
     public function rules()
     {
         return [
-            //
+            'firstName' => 'required|string|max:255',
+            'lastName'  => 'required|string|max:255',
+            'name'      => 'required|string|max:255',
+            'email'     => 'required|string|email|max:255|unique:users',
         ];
     }
 }

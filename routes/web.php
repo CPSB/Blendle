@@ -27,6 +27,8 @@ Route::post('/users/store', 'Backend\UsersController@store')->name('users.store'
 
 // Account settings routes
 Route::get('/account/settings', 'Backend\AccountSettingsController@index')->name('account.settings');
+Route::post('/account/settings/info', 'Backend\AccountSettingsController@updateInfo')->name('account.settings.info');
+Route::post('/account/settings/security', 'Backend\AccountSettingsController@updateSecurity')->name('account.settings.security');
 
 // User ban routes
 Route::get('/users/ban/{id}', 'Backend\BlockUserController@create')->name('users.ban');

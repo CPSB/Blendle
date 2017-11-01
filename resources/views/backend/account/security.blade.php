@@ -5,7 +5,7 @@
 
     <div class="panel-body">
 
-        <form method="POST" action="" class="form-horizontal">
+        <form method="POST" action="{{ route('account.settings.security') }}" class="form-horizontal">
             {{ csrf_field() }} {{-- CSRF field protection --}}
 
             <div class="form-group @error('password', 'has-error')">
