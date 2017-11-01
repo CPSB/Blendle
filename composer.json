@@ -15,7 +15,8 @@
         "laravel/horizon": "^1.0",
         "laravel/tinker": "~1.0",
         "spatie/laravel-activitylog": "^2.2",
-        "spatie/laravel-permission": "^2.7"
+        "spatie/laravel-permission": "^2.7",
+        "spatie/laravel-tags": "^2.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.1",

@@ -991,7 +991,15 @@ window.Vue = __webpack_require__(35);
 Vue.component('example', __webpack_require__(38));
 
 var app = new Vue({
-  el: '#app'
+    el: '#app',
+
+    data: {
+        newsInput: {
+            og_title_nl: '',
+            og_description_nl: '',
+            og_type_nl: 'website'
+        }
+    }
 });
 
 /***/ }),

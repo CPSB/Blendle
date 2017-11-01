@@ -35,6 +35,10 @@ Route::get('/users/ban/{id}', 'Backend\BlockUserController@create')->name('users
 Route::get('/users/unban/{id}', 'Backend\BlockUserController@destroy')->name('users.ban.undo');
 Route::post('/users/ban/store/{id}', 'Backend\BlockUserController@store')->name('users.ban.store');
 
+// News routes
+Route::get('/news', 'Backend\NewsController@index')->name('news.index');
+Route::get('/news/create', 'Backend\NewsController@create')->name('news.create');
+
 // Log routes
 Route::get('/logs', 'Backend\LogController@index')->name('logs.index');
 Route::get('/logs/{id}', 'Backend\LogController@show')->name('logs.show');
