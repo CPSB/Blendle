@@ -39,9 +39,11 @@ class UsersController extends Controller
      */
     public function index(): View
     {
-        return view('backend.users.index', [
-            'users' => $this->userRepository->paginate(2)
-        ]);
+        $users =  $this->userRepository->entity()->whereHas('roles', function ($query) {
+            $query->where(config('permission.table_names.roles') . '.name', '!=', 'admin');
+        })->paginate(20);
+
+        return view('backend.users.index', compact('users'));
     }
 
     /**
