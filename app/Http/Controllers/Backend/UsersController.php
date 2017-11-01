@@ -40,7 +40,7 @@ class UsersController extends Controller
     public function index(): View
     {
         return view('backend.users.index', [
-            'users' => $this->userRepository->paginate(20)
+            'users' => $this->userRepository->paginate(2)
         ]);
     }
 
@@ -65,11 +65,9 @@ class UsersController extends Controller
     public function store(UsersValidator $input): RedirectResponse
     {
         $password = str_random(60);
-        $filter   = ['firstName', 'lastName'];
-
         $input->merge(['name' => "{$input->firstName} {$input->lastName}", 'password' => $password]);
 
-        if ($user = $this->userRepository->create($input->except($filter))) {
+        if ($user = $this->userRepository->create($input->all())) {
             activity()->causedBy(auth()->user())->log("Added {$user->name} as user.");
             flash("{$user->name} has been added. And his password setup has been mailed.")->success();
 
