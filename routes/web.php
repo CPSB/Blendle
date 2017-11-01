@@ -25,6 +25,9 @@ Route::get('/users/create', 'Backend\UsersController@create')->name('users.creat
 Route::get('/users/delete/{id}', 'Backend\UsersController@destroy')->name('users.destroy');
 Route::post('/users/store', 'Backend\UsersController@store')->name('users.store');
 
+// Account settings routes
+Route::get('/account/settings', 'Backend\AccountSettingsController@index')->name('account.settings');
+
 // User ban routes
 Route::get('/users/ban/{id}', 'Backend\BlockUserController@create')->name('users.ban');
 Route::get('/users/unban/{id}', 'Backend\BlockUserController@destroy')->name('users.ban.undo');

@@ -39,7 +39,7 @@ class AccountSettingsController extends Controller
      */
     public function index(): View
     {
-        return view('backend.account-settings-index');
+        return view('backend.account.index');
     }
 
     /**

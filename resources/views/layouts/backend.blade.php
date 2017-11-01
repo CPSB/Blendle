@@ -61,8 +61,8 @@
                         <li><a href="{{ route('login') }}">Login</a></li>
                         <li><a href="{{ route('register') }}">Register</a></li>
                         @else
-                            <li>
-                                <a href="#">
+                            <li @if (Request::is('account*')) class="active" @endif>
+                                <a href="{{ route('account.settings') }}">
                                     {{ Auth::user()->name }}
                                 </a>
                             </li>
