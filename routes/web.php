@@ -38,6 +38,7 @@ Route::post('/users/ban/store/{id}', 'Backend\BlockUserController@store')->name(
 // News routes
 Route::get('/news', 'Backend\NewsController@index')->name('news.index');
 Route::get('/news/create', 'Backend\NewsController@create')->name('news.create');
+Route::post('/news/store', 'Backend\NewsController@store')->name('news.store');
 
 // Log routes
 Route::get('/logs', 'Backend\LogController@index')->name('logs.index');

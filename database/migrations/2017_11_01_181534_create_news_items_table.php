@@ -15,6 +15,11 @@ class CreateNewsItemsTable extends Migration
     {
         Schema::create('news_items', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('imagePath');
+            $table->string('name');
+            $table->date('publishDate');
+            $table->string('status');
+            $table->text('message');
             $table->timestamps();
         });
     }

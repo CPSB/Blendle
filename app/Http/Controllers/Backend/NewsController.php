@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Backend\NewsValidator;
 use App\Repositories\NewsItemRepository;
+use Carbon\Carbon;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -48,6 +51,27 @@ class NewsController extends Controller
     public function create(): View
     {
         return view('backend.news.create');
+    }
+
+    /**
+     * Store an news message in the system.
+     * ----
+     * NOTE: Roles also registered in the validation class.
+     *
+     * @param  NewsValidator $input The given user input validation instance.
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function store(NewsValidator $input): RedirectResponse
+    {
+        // TODO: Implement avatar
+        $input->merge(['publishDate' => (new Carbon($input->publishDate))->format('Y-m-d H:i:s')]);
+
+        if ($message = $this->newsItemRepository->create($input->all())) {
+            flash('Your news message has been stored.')->success();
+            activity()->causedBy(auth()->user())->log("Has created the news message: '{$message->name}'");
+        }
+
+        return redirect()->route('news.index');
     }
 
     /**

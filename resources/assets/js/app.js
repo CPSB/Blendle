@@ -19,12 +19,4 @@ Vue.component('example', require('./components/Example.vue'));
 
 const app = new Vue({
     el: '#app',
-
-    data: {
-        newsInput: {
-            og_title_nl        : '',
-            og_description_nl  : '',
-            og_type_nl         : 'website',
-        }
-    }
 });
