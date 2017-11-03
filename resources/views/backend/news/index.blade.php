@@ -23,7 +23,22 @@
                     <div class="panel-body">
                         @if (count($messages) > 0) {{-- Messages found --}}
                             <div class="table-responsive">
-                                {{-- Todo: Build up table  --}}
+                                <table class="table table-condensed table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Author:</th>
+                                            <th colspan="2">Title</th> {{-- Functions for the message. --}}
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($messages as $message) {{-- Loop through the news messages. --}}
+                                            <tr>
+                                                <td><strong>#{{ $message->id }}</strong></td>
+                                            </tr>
+                                        @endforeach {{-- END loop --}}
+                                    </tbody>
+                                </table>
                             </div>
 
                             {{ $messages->render() }} {{-- Paginateion view instance --}}

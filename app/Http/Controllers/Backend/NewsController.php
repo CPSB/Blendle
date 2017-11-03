@@ -8,6 +8,7 @@ use App\Repositories\NewsItemRepository;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\View\View;
 
 /**
@@ -72,6 +73,40 @@ class NewsController extends Controller
         }
 
         return redirect()->route('news.index');
+    }
+
+    /**
+     * Edit view for the news message.
+     *
+     * @param  integer $newsId the unique identifier in the storage.
+     * @return \Illuminate\Contracts\View\Factory|View
+     */
+    public function edit($newsId): View
+    {
+        $message = $this->newsItemRepository->find($newsId) ?: abort(Response::HTTP_NOT_FOUND);
+        return view('backend.news.edit', compact('message'));
+    }
+
+    /**
+     * Update a news message in the storage.
+     *
+     * @param  NewsValidator $input     The validation class for the user given input.
+     * @param  integer       $newsId    The unique identifier for the message in the storage
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update(NewsValidator $input, $newsId): RedirectResponse
+    {
+        $user    = auth()->user();
+        $message = $this->newsItemRepository->find($newsId) ?: abort(Response::HTTP_NOT_FOUND);
+
+        $input->merge(['author_id', $user->id]);
+
+        if ($news = $message->update($input->except(['_token', 'tags']))) {
+            activity()->causedBy($user)->log("{$user->name} has edited {$news->title}");
+            flash("{$news->title} has been edited.")->success();
+        }
+
+        return redirect()->back(Response::HTTP_FOUND);
     }
 
     /**
